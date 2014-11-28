@@ -1,0 +1,14 @@
+0001-Fix-forward-reference-offset-bug.patch
+0002-Fix-forward-referencing-bugs.patch
+0003-Fix-buffer-overflow-for-repeated-conditional-when-re.patch
+0004-Fix-buffer-overflow-for-named-recursive-back-referen.patch
+0005-Fix-named-forward-reference-to-duplicate-group-numbe.patch
+0006-Fix-buffer-overflow-for-lookbehind-within-mutually-r.patch
+0007-JIT-compiler-update.patch
+0008-Fix-another-buffer-overflow.patch
+0009-Add-integer-overflow-check-to-n-code.patch
+0010-Fix-table-entry-for-l-in-EBCDIC-environments.patch
+0011-Fix-overflow-when-ovector-has-size-1.patch
+0012-Fix-group-empty-match-bug.patch
+cve-2015-3210.nopatch
+cve-2015-5073.patch
