@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 8.37
-Release  : 23
+Release  : 24
 URL      : http://downloads.sourceforge.net/pcre/pcre-8.37.tar.gz
 Source0  : http://downloads.sourceforge.net/pcre/pcre-8.37.tar.gz
 Summary  : PCRECPP - C++ wrapper for PCRE
