@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 8.38
-Release  : 25
+Release  : 26
 URL      : http://downloads.sourceforge.net/pcre/pcre-8.38.tar.gz
 Source0  : http://downloads.sourceforge.net/pcre/pcre-8.38.tar.gz
 Summary  : PCRE - Perl compatible regular expressions C library with 8 bit character support
@@ -15,8 +15,8 @@ Requires: pcre-lib
 Requires: pcre-doc
 BuildRequires : bzip2-dev
 BuildRequires : pkgconfig(valgrind)
-BuildRequires : pkgconfig(zlib)
-BuildRequires : zlib-dev
+Patch1: cve-2016-1283.patch
+Patch2: cve-2016-3191.patch
 
 %description
 -----------------------------------------------------------------
@@ -73,13 +73,17 @@ lib components for the pcre package.
 
 %prep
 %setup -q -n pcre-8.38
+%patch1 -p1
+%patch2 -p1
 
 %build
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -flto -fno-semantic-interposition -falign-functions=32 -O3 "
-export CXXFLAGS="$CXXFLAGS -flto -fno-semantic-interposition -falign-functions=32 -O3 "
+export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition -falign-functions=32 "
+export FCFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition -falign-functions=32 "
+export FFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition -falign-functions=32 "
+export CXXFLAGS="$CXXFLAGS -O3 -flto -fno-semantic-interposition -falign-functions=32 "
 %configure --disable-static --enable-jit --enable-utf  --enable-unicode-properties --enable-pcre16 --enable-pcre32
 make V=1  %{?_smp_mflags}
 
