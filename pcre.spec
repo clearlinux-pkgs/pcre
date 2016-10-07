@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 8.39
-Release  : 30
+Release  : 31
 URL      : http://downloads.sourceforge.net/pcre/pcre-8.39.tar.gz
 Source0  : http://downloads.sourceforge.net/pcre/pcre-8.39.tar.gz
 Summary  : PCRE - Perl compatible regular expressions C library with 8 bit character support
@@ -15,8 +15,6 @@ Requires: pcre-lib
 Requires: pcre-doc
 BuildRequires : bzip2-dev
 BuildRequires : pkgconfig(valgrind)
-BuildRequires : pkgconfig(zlib)
-BuildRequires : zlib-dev
 
 %description
 -----------------------------------------------------------------
@@ -75,13 +73,11 @@ lib components for the pcre package.
 %setup -q -n pcre-8.39
 
 %build
-export AR=gcc-ar
-export RANLIB=gcc-ranlib
-export NM=gcc-nm
-export CFLAGS="$CFLAGS -flto -falign-functions=32 -O3 -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -flto -falign-functions=32 -O3 -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -flto -falign-functions=32 -O3 -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -flto -falign-functions=32 -O3 -fno-semantic-interposition "
+export LANG=C
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 %configure --disable-static --enable-jit --enable-utf  --enable-unicode-properties --enable-pcre16 --enable-pcre32
 make V=1  %{?_smp_mflags}
 
@@ -119,11 +115,17 @@ rm -rf %{buildroot}
 
 %files extras
 %defattr(-,root,root,-)
+/usr/lib64/libpcre16.so.0.2.7
+/usr/lib64/libpcre32.so.0.0.7
 /usr/lib64/libpcrecpp.so.0
 /usr/lib64/libpcrecpp.so.0.0.1
+/usr/lib64/libpcreposix.so.0.0.4
 
 %files lib
 %defattr(-,root,root,-)
+%exclude /usr/lib64/libpcre16.so.0.2.7
+%exclude /usr/lib64/libpcre32.so.0.0.7
 %exclude /usr/lib64/libpcrecpp.so.0
 %exclude /usr/lib64/libpcrecpp.so.0.0.1
+%exclude /usr/lib64/libpcreposix.so.0.0.4
 /usr/lib64/*.so.*
