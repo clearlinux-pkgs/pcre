@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 8.39
-Release  : 31
+Release  : 32
 URL      : http://downloads.sourceforge.net/pcre/pcre-8.39.tar.gz
 Source0  : http://downloads.sourceforge.net/pcre/pcre-8.39.tar.gz
 Summary  : PCRE - Perl compatible regular expressions C library with 8 bit character support
@@ -74,10 +74,13 @@ lib components for the pcre package.
 
 %build
 export LANG=C
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -flto -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -flto -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -flto -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -flto -fno-semantic-interposition "
 %configure --disable-static --enable-jit --enable-utf  --enable-unicode-properties --enable-pcre16 --enable-pcre32
 make V=1  %{?_smp_mflags}
 
