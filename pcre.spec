@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 8.39
-Release  : 33
+Release  : 34
 URL      : http://downloads.sourceforge.net/pcre/pcre-8.39.tar.gz
 Source0  : http://downloads.sourceforge.net/pcre/pcre-8.39.tar.gz
 Summary  : PCRE - Perl compatible regular expressions C library with 8 bit character support
@@ -14,7 +14,13 @@ Requires: pcre-bin
 Requires: pcre-lib
 Requires: pcre-doc
 BuildRequires : bzip2-dev
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
 BuildRequires : pkgconfig(valgrind)
+BuildRequires : zlib-dev
 
 %description
 -----------------------------------------------------------------
@@ -45,6 +51,16 @@ Provides: pcre-devel
 dev components for the pcre package.
 
 
+%package dev32
+Summary: dev32 components for the pcre package.
+Group: Default
+Requires: pcre-lib32
+Requires: pcre-bin
+
+%description dev32
+dev32 components for the pcre package.
+
+
 %package doc
 Summary: doc components for the pcre package.
 Group: Documentation
@@ -69,8 +85,19 @@ Group: Libraries
 lib components for the pcre package.
 
 
+%package lib32
+Summary: lib32 components for the pcre package.
+Group: Default
+
+%description lib32
+lib32 components for the pcre package.
+
+
 %prep
 %setup -q -n pcre-8.39
+pushd ..
+cp -a pcre-8.39 build32
+popd
 
 %build
 export LANG=C
@@ -84,6 +111,12 @@ export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -flto -fno-semantic-interpos
 %configure --disable-static --enable-jit --enable-utf  --enable-unicode-properties --enable-pcre16 --enable-pcre32
 make V=1  %{?_smp_mflags}
 
+pushd ../build32/
+export CFLAGS="$CFLAGS -m32"
+export CXXFLAGS="$CXXFLAGS -m32"
+%configure --disable-static --enable-jit --enable-utf  --enable-unicode-properties --enable-pcre16 --enable-pcre32 --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+make V=1  %{?_smp_mflags}
+popd
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
@@ -93,6 +126,15 @@ make check ; ./RunTest
 
 %install
 rm -rf %{buildroot}
+pushd ../build32/
+%make_install32
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do mv $i 32$i ; done
+popd
+fi
+popd
 %make_install
 
 %files
@@ -117,6 +159,19 @@ rm -rf %{buildroot}
 /usr/lib64/pkgconfig/libpcre32.pc
 /usr/lib64/pkgconfig/libpcrecpp.pc
 /usr/lib64/pkgconfig/libpcreposix.pc
+
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libpcre.so
+/usr/lib32/libpcre16.so
+/usr/lib32/libpcre32.so
+/usr/lib32/libpcrecpp.so
+/usr/lib32/libpcreposix.so
+/usr/lib32/pkgconfig/32libpcre.pc
+/usr/lib32/pkgconfig/32libpcre16.pc
+/usr/lib32/pkgconfig/32libpcre32.pc
+/usr/lib32/pkgconfig/32libpcrecpp.pc
+/usr/lib32/pkgconfig/32libpcreposix.pc
 
 %files doc
 %defattr(-,root,root,-)
@@ -144,3 +199,16 @@ rm -rf %{buildroot}
 /usr/lib64/libpcre16.so.0
 /usr/lib64/libpcre32.so.0
 /usr/lib64/libpcreposix.so.0
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libpcre.so.1
+/usr/lib32/libpcre.so.1.2.7
+/usr/lib32/libpcre16.so.0
+/usr/lib32/libpcre16.so.0.2.7
+/usr/lib32/libpcre32.so.0
+/usr/lib32/libpcre32.so.0.0.7
+/usr/lib32/libpcrecpp.so.0
+/usr/lib32/libpcrecpp.so.0.0.1
+/usr/lib32/libpcreposix.so.0
+/usr/lib32/libpcreposix.so.0.0.4
