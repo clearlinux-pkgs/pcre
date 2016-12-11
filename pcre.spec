@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 8.39
-Release  : 32
+Release  : 33
 URL      : http://downloads.sourceforge.net/pcre/pcre-8.39.tar.gz
 Source0  : http://downloads.sourceforge.net/pcre/pcre-8.39.tar.gz
 Summary  : PCRE - Perl compatible regular expressions C library with 8 bit character support
@@ -107,8 +107,16 @@ rm -rf %{buildroot}
 %files dev
 %defattr(-,root,root,-)
 /usr/include/*.h
-/usr/lib64/*.so
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libpcre.so
+/usr/lib64/libpcre16.so
+/usr/lib64/libpcre32.so
+/usr/lib64/libpcrecpp.so
+/usr/lib64/libpcreposix.so
+/usr/lib64/pkgconfig/libpcre.pc
+/usr/lib64/pkgconfig/libpcre16.pc
+/usr/lib64/pkgconfig/libpcre32.pc
+/usr/lib64/pkgconfig/libpcrecpp.pc
+/usr/lib64/pkgconfig/libpcreposix.pc
 
 %files doc
 %defattr(-,root,root,-)
@@ -131,4 +139,8 @@ rm -rf %{buildroot}
 %exclude /usr/lib64/libpcrecpp.so.0
 %exclude /usr/lib64/libpcrecpp.so.0.0.1
 %exclude /usr/lib64/libpcreposix.so.0.0.4
-/usr/lib64/*.so.*
+/usr/lib64/libpcre.so.1
+/usr/lib64/libpcre.so.1.2.7
+/usr/lib64/libpcre16.so.0
+/usr/lib64/libpcre32.so.0
+/usr/lib64/libpcreposix.so.0
