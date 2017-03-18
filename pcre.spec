@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.40
-Release  : 35
+Release  : 36
 URL      : ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz
 Source0  : ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz
 Source99 : ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz.sig
@@ -106,7 +106,7 @@ popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1485024568
+export SOURCE_DATE_EPOCH=1489862355
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -133,7 +133,7 @@ export no_proxy=localhost
 make check ; ./RunTest
 
 %install
-export SOURCE_DATE_EPOCH=1485024568
+export SOURCE_DATE_EPOCH=1489862355
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -197,13 +197,11 @@ popd
 %defattr(-,root,root,-)
 /usr/lib64/libpcrecpp.so.0
 /usr/lib64/libpcrecpp.so.0.0.1
-/usr/lib64/libpcreposix.so.0.0.4
 
 %files lib
 %defattr(-,root,root,-)
 %exclude /usr/lib64/libpcrecpp.so.0
 %exclude /usr/lib64/libpcrecpp.so.0.0.1
-%exclude /usr/lib64/libpcreposix.so.0.0.4
 /usr/lib64/libpcre.so.1
 /usr/lib64/libpcre.so.1.2.8
 /usr/lib64/libpcre16.so.0
@@ -211,6 +209,7 @@ popd
 /usr/lib64/libpcre32.so.0
 /usr/lib64/libpcre32.so.0.0.8
 /usr/lib64/libpcreposix.so.0
+/usr/lib64/libpcreposix.so.0.0.4
 
 %files lib32
 %defattr(-,root,root,-)
