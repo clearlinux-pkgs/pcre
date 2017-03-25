@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.40
-Release  : 36
+Release  : 37
 URL      : ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz
 Source0  : ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz
 Source99 : ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz.sig
@@ -25,6 +25,7 @@ BuildRequires : glibc-libc32
 BuildRequires : pkgconfig(valgrind)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : zlib-dev
+Patch1: cve-2017-7186.patch
 
 %description
 -----------------------------------------------------------------
@@ -100,13 +101,14 @@ lib32 components for the pcre package.
 
 %prep
 %setup -q -n pcre-8.40
+%patch1 -p1
 pushd ..
 cp -a pcre-8.40 build32
 popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1489862355
+export SOURCE_DATE_EPOCH=1490401070
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -133,7 +135,7 @@ export no_proxy=localhost
 make check ; ./RunTest
 
 %install
-export SOURCE_DATE_EPOCH=1489862355
+export SOURCE_DATE_EPOCH=1490401070
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
