@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.40
-Release  : 38
+Release  : 39
 URL      : ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz
 Source0  : ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz
 Source99 : ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz.sig
@@ -108,7 +108,7 @@ popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1490401445
+export SOURCE_DATE_EPOCH=1490637218
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -135,7 +135,7 @@ export no_proxy=localhost
 make check ; ./RunTest
 
 %install
-export SOURCE_DATE_EPOCH=1490401445
+export SOURCE_DATE_EPOCH=1490637218
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
