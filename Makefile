@@ -1,5 +1,5 @@
 PKG_NAME := pcre
-URL := ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz
+URL := https://github.com/svn2github/pcre/archive/master.zip
 
 
 include ../common/Makefile.common
