@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 379218256765928764092
-Release  : 41
+Release  : 42
 URL      : https://github.com/svn2github/pcre/archive/eddd379cd2a1b8aadc2a567c6592a87d6ede4092.zip
 Source0  : https://github.com/svn2github/pcre/archive/eddd379cd2a1b8aadc2a567c6592a87d6ede4092.zip
 Summary  : PCREPosix - Posix compatible interface to libpcre
