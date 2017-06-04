@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 379218256765928764092
-Release  : 42
+Release  : 43
 URL      : https://github.com/svn2github/pcre/archive/eddd379cd2a1b8aadc2a567c6592a87d6ede4092.zip
 Source0  : https://github.com/svn2github/pcre/archive/eddd379cd2a1b8aadc2a567c6592a87d6ede4092.zip
 Summary  : PCREPosix - Posix compatible interface to libpcre
@@ -102,8 +102,11 @@ cp -a pcre-eddd379cd2a1b8aadc2a567c6592a87d6ede4092 build32
 popd
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1491252954
+export SOURCE_DATE_EPOCH=1496614550
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -126,11 +129,11 @@ popd
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check ; ./RunTest
 
 %install
-export SOURCE_DATE_EPOCH=1491252954
+export SOURCE_DATE_EPOCH=1496614550
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -192,21 +195,27 @@ popd
 
 %files extras
 %defattr(-,root,root,-)
-/usr/lib64/libpcrecpp.so.0
-/usr/lib64/libpcrecpp.so.0.0.1
-
-%files lib
-%defattr(-,root,root,-)
-%exclude /usr/lib64/libpcrecpp.so.0
-%exclude /usr/lib64/libpcrecpp.so.0.0.1
-/usr/lib64/libpcre.so.1
-/usr/lib64/libpcre.so.1.2.8
 /usr/lib64/libpcre16.so.0
 /usr/lib64/libpcre16.so.0.2.8
 /usr/lib64/libpcre32.so.0
 /usr/lib64/libpcre32.so.0.0.8
+/usr/lib64/libpcrecpp.so.0
+/usr/lib64/libpcrecpp.so.0.0.1
 /usr/lib64/libpcreposix.so.0
 /usr/lib64/libpcreposix.so.0.0.4
+
+%files lib
+%defattr(-,root,root,-)
+%exclude /usr/lib64/libpcre16.so.0
+%exclude /usr/lib64/libpcre16.so.0.2.8
+%exclude /usr/lib64/libpcre32.so.0
+%exclude /usr/lib64/libpcre32.so.0.0.8
+%exclude /usr/lib64/libpcrecpp.so.0
+%exclude /usr/lib64/libpcrecpp.so.0.0.1
+%exclude /usr/lib64/libpcreposix.so.0
+%exclude /usr/lib64/libpcreposix.so.0.0.4
+/usr/lib64/libpcre.so.1
+/usr/lib64/libpcre.so.1.2.8
 
 %files lib32
 %defattr(-,root,root,-)
