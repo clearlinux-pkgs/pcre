@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 1
-Release  : 47
+Release  : 48
 URL      : https://github.com/svn2github/pcre/archive/4e3965851c3a2315abd50ee91f46e22bceeb44a0.zip
 Source0  : https://github.com/svn2github/pcre/archive/4e3965851c3a2315abd50ee91f46e22bceeb44a0.zip
 Summary  : PCRE - Perl compatible regular expressions C library with 8 bit character support
