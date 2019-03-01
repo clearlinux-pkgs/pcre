@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 8.43
-Release  : 49
+Release  : 50
 URL      : https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.bz2
 Source0  : https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.bz2
 Summary  : PCRE - Perl compatible regular expressions C library with 8 bit character support
@@ -128,7 +128,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1551326024
+export SOURCE_DATE_EPOCH=1551400026
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -158,9 +158,10 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1551326024
+export SOURCE_DATE_EPOCH=1551400026
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
+cp LICENCE %{buildroot}/usr/share/package-licenses/pcre/LICENCE
 cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/pcre/cmake_COPYING-CMAKE-SCRIPTS
 pushd ../build32/
 %make_install32
@@ -321,7 +322,9 @@ popd
 %files extras
 %defattr(-,root,root,-)
 /usr/lib64/libpcre16.so.0
+/usr/lib64/libpcre16.so.0.2.11
 /usr/lib64/libpcre32.so.0
+/usr/lib64/libpcre32.so.0.0.11
 /usr/lib64/libpcrecpp.so.0
 /usr/lib64/libpcrecpp.so.0.0.1
 /usr/lib64/libpcreposix.so.0
@@ -330,15 +333,15 @@ popd
 %files lib
 %defattr(-,root,root,-)
 %exclude /usr/lib64/libpcre16.so.0
+%exclude /usr/lib64/libpcre16.so.0.2.11
 %exclude /usr/lib64/libpcre32.so.0
+%exclude /usr/lib64/libpcre32.so.0.0.11
 %exclude /usr/lib64/libpcrecpp.so.0
 %exclude /usr/lib64/libpcrecpp.so.0.0.1
 %exclude /usr/lib64/libpcreposix.so.0
 %exclude /usr/lib64/libpcreposix.so.0.0.6
 /usr/lib64/libpcre.so.1
 /usr/lib64/libpcre.so.1.2.11
-/usr/lib64/libpcre16.so.0.2.11
-/usr/lib64/libpcre32.so.0.0.11
 
 %files lib32
 %defattr(-,root,root,-)
@@ -355,6 +358,7 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
+/usr/share/package-licenses/pcre/LICENCE
 /usr/share/package-licenses/pcre/cmake_COPYING-CMAKE-SCRIPTS
 
 %files man
