@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 8.43
-Release  : 50
+Release  : 51
 URL      : https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.bz2
 Source0  : https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.bz2
 Summary  : PCRE - Perl compatible regular expressions C library with 8 bit character support
@@ -38,7 +38,6 @@ libraries.
 Summary: bin components for the pcre package.
 Group: Binaries
 Requires: pcre-license = %{version}-%{release}
-Requires: pcre-man = %{version}-%{release}
 
 %description bin
 bin components for the pcre package.
@@ -50,6 +49,7 @@ Group: Development
 Requires: pcre-lib = %{version}-%{release}
 Requires: pcre-bin = %{version}-%{release}
 Provides: pcre-devel = %{version}-%{release}
+Requires: pcre = %{version}-%{release}
 
 %description dev
 dev components for the pcre package.
@@ -127,8 +127,9 @@ popd
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1551400026
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1568874698
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -142,14 +143,14 @@ make  %{?_smp_mflags}
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
-export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
-export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
-export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %configure --disable-static --enable-jit --enable-utf  --enable-unicode-properties --enable-pcre16 --enable-pcre32   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -158,7 +159,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1551400026
+export SOURCE_DATE_EPOCH=1568874698
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
 cp LICENCE %{buildroot}/usr/share/package-licenses/pcre/LICENCE
@@ -185,7 +186,12 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/pcre.h
+/usr/include/pcre_scanner.h
+/usr/include/pcre_stringpiece.h
+/usr/include/pcrecpp.h
+/usr/include/pcrecpparg.h
+/usr/include/pcreposix.h
 /usr/lib64/libpcre.so
 /usr/lib64/libpcre16.so
 /usr/lib64/libpcre32.so
@@ -332,14 +338,6 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-%exclude /usr/lib64/libpcre16.so.0
-%exclude /usr/lib64/libpcre16.so.0.2.11
-%exclude /usr/lib64/libpcre32.so.0
-%exclude /usr/lib64/libpcre32.so.0.0.11
-%exclude /usr/lib64/libpcrecpp.so.0
-%exclude /usr/lib64/libpcrecpp.so.0.0.1
-%exclude /usr/lib64/libpcreposix.so.0
-%exclude /usr/lib64/libpcreposix.so.0.0.6
 /usr/lib64/libpcre.so.1
 /usr/lib64/libpcre.so.1.2.11
 
