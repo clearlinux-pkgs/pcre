@@ -4,7 +4,7 @@
 #
 Name     : pcre
 Version  : 8.43
-Release  : 51
+Release  : 52
 URL      : https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.bz2
 Source0  : https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.bz2
 Summary  : PCRE - Perl compatible regular expressions C library with 8 bit character support
