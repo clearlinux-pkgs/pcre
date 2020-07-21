@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.44
-Release  : 53
+Release  : 55
 URL      : https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
 Source0  : https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
 Source1  : https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz.sig
@@ -126,13 +126,16 @@ cd %{_builddir}/pcre-8.44
 pushd ..
 cp -a pcre-8.44 build32
 popd
+pushd ..
+cp -a pcre-8.44 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1595270734
+export SOURCE_DATE_EPOCH=1595289615
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -153,6 +156,16 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %configure --disable-static --enable-jit --enable-utf  --enable-unicode-properties --enable-pcre16 --enable-pcre32   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=haswell"
+export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
+export FFLAGS="$FFLAGS -m64 -march=haswell"
+export FCFLAGS="$FCFLAGS -m64 -march=haswell"
+export LDFLAGS="$LDFLAGS -m64 -march=haswell"
+%configure --disable-static --enable-jit --enable-utf  --enable-unicode-properties --enable-pcre16 --enable-pcre32
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
@@ -161,9 +174,11 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
+cd ../buildavx2;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1595270734
+export SOURCE_DATE_EPOCH=1595289615
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
 cp %{_builddir}/pcre-8.44/LICENCE %{buildroot}/usr/share/package-licenses/pcre/11ff082389982b8168263850db69199065f2028d
@@ -177,6 +192,9 @@ for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
 popd
+pushd ../buildavx2/
+%make_install_avx2
+popd
 %make_install
 
 %files
@@ -184,6 +202,8 @@ popd
 
 %files bin
 %defattr(-,root,root,-)
+/usr/bin/haswell/pcregrep
+/usr/bin/haswell/pcretest
 /usr/bin/pcre-config
 /usr/bin/pcregrep
 /usr/bin/pcretest
@@ -196,6 +216,11 @@ popd
 /usr/include/pcrecpp.h
 /usr/include/pcrecpparg.h
 /usr/include/pcreposix.h
+/usr/lib64/haswell/libpcre.so
+/usr/lib64/haswell/libpcre16.so
+/usr/lib64/haswell/libpcre32.so
+/usr/lib64/haswell/libpcrecpp.so
+/usr/lib64/haswell/libpcreposix.so
 /usr/lib64/libpcre.so
 /usr/lib64/libpcre16.so
 /usr/lib64/libpcre32.so
@@ -342,6 +367,16 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libpcre.so.1
+/usr/lib64/haswell/libpcre.so.1.2.12
+/usr/lib64/haswell/libpcre16.so.0
+/usr/lib64/haswell/libpcre16.so.0.2.12
+/usr/lib64/haswell/libpcre32.so.0
+/usr/lib64/haswell/libpcre32.so.0.0.12
+/usr/lib64/haswell/libpcrecpp.so.0
+/usr/lib64/haswell/libpcrecpp.so.0.0.2
+/usr/lib64/haswell/libpcreposix.so.0
+/usr/lib64/haswell/libpcreposix.so.0.0.7
 /usr/lib64/libpcre.so.1
 /usr/lib64/libpcre.so.1.2.12
 
