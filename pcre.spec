@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.44
-Release  : 56
+Release  : 57
 URL      : https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
 Source0  : https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
 Source1  : https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz.sig
@@ -135,7 +135,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1595290191
+export SOURCE_DATE_EPOCH=1595352922
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -193,7 +193,7 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1595290191
+export SOURCE_DATE_EPOCH=1595352922
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
 cp %{_builddir}/pcre-8.44/LICENCE %{buildroot}/usr/share/package-licenses/pcre/11ff082389982b8168263850db69199065f2028d
@@ -371,6 +371,14 @@ popd
 
 %files extras
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libpcre16.so.0
+/usr/lib64/haswell/libpcre16.so.0.2.12
+/usr/lib64/haswell/libpcre32.so.0
+/usr/lib64/haswell/libpcre32.so.0.0.12
+/usr/lib64/haswell/libpcrecpp.so.0
+/usr/lib64/haswell/libpcrecpp.so.0.0.2
+/usr/lib64/haswell/libpcreposix.so.0
+/usr/lib64/haswell/libpcreposix.so.0.0.7
 /usr/lib64/libpcre16.so.0
 /usr/lib64/libpcre16.so.0.2.12
 /usr/lib64/libpcre32.so.0
@@ -384,14 +392,6 @@ popd
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libpcre.so.1
 /usr/lib64/haswell/libpcre.so.1.2.12
-/usr/lib64/haswell/libpcre16.so.0
-/usr/lib64/haswell/libpcre16.so.0.2.12
-/usr/lib64/haswell/libpcre32.so.0
-/usr/lib64/haswell/libpcre32.so.0.0.12
-/usr/lib64/haswell/libpcrecpp.so.0
-/usr/lib64/haswell/libpcrecpp.so.0.0.2
-/usr/lib64/haswell/libpcreposix.so.0
-/usr/lib64/haswell/libpcreposix.so.0.0.7
 /usr/lib64/libpcre.so.1
 /usr/lib64/libpcre.so.1.2.12
 
