@@ -1,0 +1,1 @@
+make VERBOSE=1 V=1 %{?_smp_mflags} check || : 
