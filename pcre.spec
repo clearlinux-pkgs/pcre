@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.45
-Release  : 58
+Release  : 59
 URL      : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz
 Source0  : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz
 Source1  : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz.sig
@@ -134,7 +134,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1623781646
+export SOURCE_DATE_EPOCH=1623782231
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -192,9 +192,10 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1623781646
+export SOURCE_DATE_EPOCH=1623782231
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
+cp %{_builddir}/pcre-8.45/LICENCE %{buildroot}/usr/share/package-licenses/pcre/936db4f914d8b9a516ac93a3bf7856c8bfeb6855
 cp %{_builddir}/pcre-8.45/cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/pcre/ff3ed70db4739b3c6747c7f624fe2bad70802987
 pushd ../build32/
 %make_install32
@@ -370,13 +371,17 @@ popd
 %files extras
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libpcre16.so.0
+/usr/lib64/haswell/libpcre16.so.0.2.13
 /usr/lib64/haswell/libpcre32.so.0
+/usr/lib64/haswell/libpcre32.so.0.0.13
 /usr/lib64/haswell/libpcrecpp.so.0
 /usr/lib64/haswell/libpcrecpp.so.0.0.2
 /usr/lib64/haswell/libpcreposix.so.0
 /usr/lib64/haswell/libpcreposix.so.0.0.7
 /usr/lib64/libpcre16.so.0
+/usr/lib64/libpcre16.so.0.2.13
 /usr/lib64/libpcre32.so.0
+/usr/lib64/libpcre32.so.0.0.13
 /usr/lib64/libpcrecpp.so.0
 /usr/lib64/libpcrecpp.so.0.0.2
 /usr/lib64/libpcreposix.so.0
@@ -386,12 +391,8 @@ popd
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libpcre.so.1
 /usr/lib64/haswell/libpcre.so.1.2.13
-/usr/lib64/haswell/libpcre16.so.0.2.13
-/usr/lib64/haswell/libpcre32.so.0.0.13
 /usr/lib64/libpcre.so.1
 /usr/lib64/libpcre.so.1.2.13
-/usr/lib64/libpcre16.so.0.2.13
-/usr/lib64/libpcre32.so.0.0.13
 
 %files lib32
 %defattr(-,root,root,-)
@@ -408,6 +409,7 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
+/usr/share/package-licenses/pcre/936db4f914d8b9a516ac93a3bf7856c8bfeb6855
 /usr/share/package-licenses/pcre/ff3ed70db4739b3c6747c7f624fe2bad70802987
 
 %files man
