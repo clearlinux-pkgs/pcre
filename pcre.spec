@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x9766E084FB0F43D8 (ph10@cam.ac.uk)
 #
 Name     : pcre
-Version  : 8.44
-Release  : 57
-URL      : https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
-Source0  : https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
-Source1  : https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz.sig
+Version  : 8.45
+Release  : 58
+URL      : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz
+Source0  : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz
+Source1  : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz.sig
 Summary  : PCRE - Perl compatible regular expressions C library with 8 bit character support
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -33,9 +33,8 @@ NOTE: This set of files relates to PCRE releases that use the original API,
 with library names libpcre, libpcre16, and libpcre32. January 2015 saw the
 first release of a new API, known as PCRE2, with release numbers starting at
 10.00 and library names libpcre2-8, libpcre2-16, and libpcre2-32. The old
-libraries (now called PCRE1) are still being maintained for bug fixes, but
-there will be no new development. New projects are advised to use the new PCRE2
-libraries.
+libraries (now called PCRE1) are now at end of life, and 8.45 is the final
+release. New projects are advised to use the new PCRE2 libraries.
 
 %package bin
 Summary: bin components for the pcre package.
@@ -121,13 +120,13 @@ man components for the pcre package.
 
 
 %prep
-%setup -q -n pcre-8.44
-cd %{_builddir}/pcre-8.44
+%setup -q -n pcre-8.45
+cd %{_builddir}/pcre-8.45
 pushd ..
-cp -a pcre-8.44 build32
+cp -a pcre-8.45 build32
 popd
 pushd ..
-cp -a pcre-8.44 buildavx2
+cp -a pcre-8.45 buildavx2
 popd
 
 %build
@@ -135,15 +134,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1595352922
+export SOURCE_DATE_EPOCH=1623781646
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -mprefer-vector-width=256 "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -186,18 +185,17 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check || :
+make %{?_smp_mflags} check || :
 cd ../build32;
-make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
+make %{?_smp_mflags} check || : || :
 cd ../buildavx2;
-make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
+make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1595352922
+export SOURCE_DATE_EPOCH=1623781646
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
-cp %{_builddir}/pcre-8.44/LICENCE %{buildroot}/usr/share/package-licenses/pcre/11ff082389982b8168263850db69199065f2028d
-cp %{_builddir}/pcre-8.44/cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/pcre/ff3ed70db4739b3c6747c7f624fe2bad70802987
+cp %{_builddir}/pcre-8.45/cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/pcre/ff3ed70db4739b3c6747c7f624fe2bad70802987
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -372,17 +370,13 @@ popd
 %files extras
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libpcre16.so.0
-/usr/lib64/haswell/libpcre16.so.0.2.12
 /usr/lib64/haswell/libpcre32.so.0
-/usr/lib64/haswell/libpcre32.so.0.0.12
 /usr/lib64/haswell/libpcrecpp.so.0
 /usr/lib64/haswell/libpcrecpp.so.0.0.2
 /usr/lib64/haswell/libpcreposix.so.0
 /usr/lib64/haswell/libpcreposix.so.0.0.7
 /usr/lib64/libpcre16.so.0
-/usr/lib64/libpcre16.so.0.2.12
 /usr/lib64/libpcre32.so.0
-/usr/lib64/libpcre32.so.0.0.12
 /usr/lib64/libpcrecpp.so.0
 /usr/lib64/libpcrecpp.so.0.0.2
 /usr/lib64/libpcreposix.so.0
@@ -391,18 +385,22 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libpcre.so.1
-/usr/lib64/haswell/libpcre.so.1.2.12
+/usr/lib64/haswell/libpcre.so.1.2.13
+/usr/lib64/haswell/libpcre16.so.0.2.13
+/usr/lib64/haswell/libpcre32.so.0.0.13
 /usr/lib64/libpcre.so.1
-/usr/lib64/libpcre.so.1.2.12
+/usr/lib64/libpcre.so.1.2.13
+/usr/lib64/libpcre16.so.0.2.13
+/usr/lib64/libpcre32.so.0.0.13
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libpcre.so.1
-/usr/lib32/libpcre.so.1.2.12
+/usr/lib32/libpcre.so.1.2.13
 /usr/lib32/libpcre16.so.0
-/usr/lib32/libpcre16.so.0.2.12
+/usr/lib32/libpcre16.so.0.2.13
 /usr/lib32/libpcre32.so.0
-/usr/lib32/libpcre32.so.0.0.12
+/usr/lib32/libpcre32.so.0.0.13
 /usr/lib32/libpcrecpp.so.0
 /usr/lib32/libpcrecpp.so.0.0.2
 /usr/lib32/libpcreposix.so.0
@@ -410,7 +408,6 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/pcre/11ff082389982b8168263850db69199065f2028d
 /usr/share/package-licenses/pcre/ff3ed70db4739b3c6747c7f624fe2bad70802987
 
 %files man
