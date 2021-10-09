@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.45
-Release  : 60
+Release  : 61
 URL      : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz
 Source0  : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz
 Source1  : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz.sig
@@ -145,7 +145,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1633813621
+export SOURCE_DATE_EPOCH=1633819466
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -203,7 +203,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1633813621
+export SOURCE_DATE_EPOCH=1633819466
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
 cp %{_builddir}/pcre-8.45/LICENCE %{buildroot}/usr/share/package-licenses/pcre/936db4f914d8b9a516ac93a3bf7856c8bfeb6855
