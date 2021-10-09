@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.45
-Release  : 59
+Release  : 60
 URL      : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz
 Source0  : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz
 Source1  : https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.gz.sig
@@ -14,6 +14,7 @@ Summary  : PCRE - Perl compatible regular expressions C library with 8 bit chara
 Group    : Development/Tools
 License  : BSD-3-Clause
 Requires: pcre-bin = %{version}-%{release}
+Requires: pcre-filemap = %{version}-%{release}
 Requires: pcre-lib = %{version}-%{release}
 Requires: pcre-license = %{version}-%{release}
 Requires: pcre-man = %{version}-%{release}
@@ -40,6 +41,7 @@ release. New projects are advised to use the new PCRE2 libraries.
 Summary: bin components for the pcre package.
 Group: Binaries
 Requires: pcre-license = %{version}-%{release}
+Requires: pcre-filemap = %{version}-%{release}
 
 %description bin
 bin components for the pcre package.
@@ -85,10 +87,19 @@ Group: Default
 extras components for the pcre package.
 
 
+%package filemap
+Summary: filemap components for the pcre package.
+Group: Default
+
+%description filemap
+filemap components for the pcre package.
+
+
 %package lib
 Summary: lib components for the pcre package.
 Group: Libraries
 Requires: pcre-license = %{version}-%{release}
+Requires: pcre-filemap = %{version}-%{release}
 
 %description lib
 lib components for the pcre package.
@@ -134,15 +145,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1623782231
+export SOURCE_DATE_EPOCH=1633813621
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -162,7 +173,7 @@ CFLAGS="${CFLAGS_USE}" CXXFLAGS="${CXXFLAGS_USE}" FFLAGS="${FFLAGS_USE}" FCFLAGS
 make  %{?_smp_mflags}
 
 pushd ../build32/
-export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
@@ -172,11 +183,11 @@ make  %{?_smp_mflags}
 popd
 unset PKG_CONFIG_PATH
 pushd ../buildavx2/
-export CFLAGS="$CFLAGS -m64 -march=haswell"
-export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
-export FFLAGS="$FFLAGS -m64 -march=haswell"
-export FCFLAGS="$FCFLAGS -m64 -march=haswell"
-export LDFLAGS="$LDFLAGS -m64 -march=haswell"
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 %configure --disable-static --enable-jit --enable-utf  --enable-unicode-properties --enable-pcre16 --enable-pcre32
 make  %{?_smp_mflags}
 popd
@@ -192,7 +203,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1623782231
+export SOURCE_DATE_EPOCH=1633813621
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
 cp %{_builddir}/pcre-8.45/LICENCE %{buildroot}/usr/share/package-licenses/pcre/936db4f914d8b9a516ac93a3bf7856c8bfeb6855
@@ -205,9 +216,16 @@ pushd %{buildroot}/usr/lib32/pkgconfig
 for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
+if [ -d %{buildroot}/usr/share/pkgconfig ]
+then
+pushd %{buildroot}/usr/share/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
 popd
 pushd ../buildavx2/
-%make_install_avx2
+%make_install_v3
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 popd
 %make_install
 
@@ -216,11 +234,10 @@ popd
 
 %files bin
 %defattr(-,root,root,-)
-/usr/bin/haswell/pcregrep
-/usr/bin/haswell/pcretest
 /usr/bin/pcre-config
 /usr/bin/pcregrep
 /usr/bin/pcretest
+/usr/share/clear/optimized-elf/bin*
 
 %files dev
 %defattr(-,root,root,-)
@@ -230,11 +247,6 @@ popd
 /usr/include/pcrecpp.h
 /usr/include/pcrecpparg.h
 /usr/include/pcreposix.h
-/usr/lib64/haswell/libpcre.so
-/usr/lib64/haswell/libpcre16.so
-/usr/lib64/haswell/libpcre32.so
-/usr/lib64/haswell/libpcrecpp.so
-/usr/lib64/haswell/libpcreposix.so
 /usr/lib64/libpcre.so
 /usr/lib64/libpcre16.so
 /usr/lib64/libpcre32.so
@@ -370,14 +382,6 @@ popd
 
 %files extras
 %defattr(-,root,root,-)
-/usr/lib64/haswell/libpcre16.so.0
-/usr/lib64/haswell/libpcre16.so.0.2.13
-/usr/lib64/haswell/libpcre32.so.0
-/usr/lib64/haswell/libpcre32.so.0.0.13
-/usr/lib64/haswell/libpcrecpp.so.0
-/usr/lib64/haswell/libpcrecpp.so.0.0.2
-/usr/lib64/haswell/libpcreposix.so.0
-/usr/lib64/haswell/libpcreposix.so.0.0.7
 /usr/lib64/libpcre16.so.0
 /usr/lib64/libpcre16.so.0.2.13
 /usr/lib64/libpcre32.so.0
@@ -387,12 +391,15 @@ popd
 /usr/lib64/libpcreposix.so.0
 /usr/lib64/libpcreposix.so.0.0.7
 
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-pcre
+
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/haswell/libpcre.so.1
-/usr/lib64/haswell/libpcre.so.1.2.13
 /usr/lib64/libpcre.so.1
 /usr/lib64/libpcre.so.1.2.13
+/usr/share/clear/optimized-elf/lib*
 
 %files lib32
 %defattr(-,root,root,-)
