@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.45
-Release  : 65
+Release  : 66
 URL      : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz
 Source1  : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz.sig
@@ -145,15 +145,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1642710730
+export SOURCE_DATE_EPOCH=1656306966
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -203,7 +203,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1642710730
+export SOURCE_DATE_EPOCH=1656306966
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
 cp %{_builddir}/pcre-8.45/LICENCE %{buildroot}/usr/share/package-licenses/pcre/936db4f914d8b9a516ac93a3bf7856c8bfeb6855
@@ -227,7 +227,7 @@ pushd ../buildavx2/
 %make_install_v3
 popd
 %make_install
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -247,6 +247,11 @@ popd
 /usr/include/pcrecpp.h
 /usr/include/pcrecpparg.h
 /usr/include/pcreposix.h
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre16.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre32.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcrecpp.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcreposix.so
 /usr/lib64/libpcre.so
 /usr/lib64/libpcre16.so
 /usr/lib64/libpcre32.so
@@ -382,6 +387,14 @@ popd
 
 %files extras
 %defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre16.so.0
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre16.so.0.2.13
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre32.so.0
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre32.so.0.0.13
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcrecpp.so.0
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcrecpp.so.0.0.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcreposix.so.0
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcreposix.so.0.0.7
 /usr/lib64/libpcre16.so.0
 /usr/lib64/libpcre16.so.0.2.13
 /usr/lib64/libpcre32.so.0
@@ -397,9 +410,10 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre.so.1
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre.so.1.2.13
 /usr/lib64/libpcre.so.1
 /usr/lib64/libpcre.so.1.2.13
-/usr/share/clear/optimized-elf/lib*
 
 %files lib32
 %defattr(-,root,root,-)
