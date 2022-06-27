@@ -1,17 +1,17 @@
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcrecpp.so.0
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcrecpp.so.0.0.2
+/usr/lib64/libpcrecpp.so.0
+/usr/lib64/libpcrecpp.so.0.0.2
 # pcretest requires these libraries, so it's not worth shipping them in -extras...
 #/usr/lib64/libpcre16.so.0
 #/usr/lib64/libpcre16.so.0.2.13
 #/usr/lib64/libpcre32.so.0
 #/usr/lib64/libpcre32.so.0.0.13
-#/usr/lib64/libpcrecpp.so.0
-#/usr/lib64/libpcrecpp.so.0.0.2
 #/usr/lib64/libpcreposix.so.0
 #/usr/lib64/libpcreposix.so.0.0.7
 #/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre16.so.0
 #/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre16.so.0.2.13
 #/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre32.so.0
 #/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre32.so.0.0.13
-#/usr/lib64/glibc-hwcaps/x86-64-v3/libpcrecpp.so.0
-#/usr/lib64/glibc-hwcaps/x86-64-v3/libpcrecpp.so.0.0.2
 #/usr/lib64/glibc-hwcaps/x86-64-v3/libpcreposix.so.0
 #/usr/lib64/glibc-hwcaps/x86-64-v3/libpcreposix.so.0.0.7
