@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.45
-Release  : 68
+Release  : 69
 URL      : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz
 Source1  : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz.sig
