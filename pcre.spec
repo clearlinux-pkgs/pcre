@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.45
-Release  : 71
+Release  : 72
 URL      : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz
 Source1  : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz.sig
@@ -87,6 +87,14 @@ Group: Default
 extras components for the pcre package.
 
 
+%package extras-unicode
+Summary: extras-unicode components for the pcre package.
+Group: Default
+
+%description extras-unicode
+extras-unicode components for the pcre package.
+
+
 %package filemap
 Summary: filemap components for the pcre package.
 Group: Default
@@ -145,7 +153,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1656312364
+export SOURCE_DATE_EPOCH=1662477260
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -203,11 +211,11 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1656312364
+export SOURCE_DATE_EPOCH=1662477260
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
-cp %{_builddir}/pcre-8.45/LICENCE %{buildroot}/usr/share/package-licenses/pcre/936db4f914d8b9a516ac93a3bf7856c8bfeb6855
-cp %{_builddir}/pcre-8.45/cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/pcre/ff3ed70db4739b3c6747c7f624fe2bad70802987
+cp %{_builddir}/pcre-%{version}/LICENCE %{buildroot}/usr/share/package-licenses/pcre/936db4f914d8b9a516ac93a3bf7856c8bfeb6855 || :
+cp %{_builddir}/pcre-%{version}/cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/pcre/ff3ed70db4739b3c6747c7f624fe2bad70802987 || :
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -392,6 +400,13 @@ popd
 /usr/lib64/libpcrecpp.so.0
 /usr/lib64/libpcrecpp.so.0.0.2
 
+%files extras-unicode
+%defattr(-,root,root,-)
+/usr/lib64/libpcre16.so.0
+/usr/lib64/libpcre16.so.0.2.13
+/usr/lib64/libpcre32.so.0
+/usr/lib64/libpcre32.so.0.0.13
+
 %files filemap
 %defattr(-,root,root,-)
 /usr/share/clear/filemap/filemap-pcre
@@ -408,10 +423,6 @@ popd
 /usr/lib64/glibc-hwcaps/x86-64-v3/libpcreposix.so.0.0.7
 /usr/lib64/libpcre.so.1
 /usr/lib64/libpcre.so.1.2.13
-/usr/lib64/libpcre16.so.0
-/usr/lib64/libpcre16.so.0.2.13
-/usr/lib64/libpcre32.so.0
-/usr/lib64/libpcre32.so.0.0.13
 /usr/lib64/libpcreposix.so.0
 /usr/lib64/libpcreposix.so.0.0.7
 
