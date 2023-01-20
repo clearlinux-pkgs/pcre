@@ -6,7 +6,7 @@
 #
 Name     : pcre
 Version  : 8.45
-Release  : 74
+Release  : 75
 URL      : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz
 Source1  : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz.sig
@@ -27,6 +27,9 @@ BuildRequires : glibc-libc32
 BuildRequires : pkgconfig(valgrind)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : zlib-dev
+# Suppress stripping binaries
+%define __strip /bin/true
+%define debug_package %{nil}
 
 %description
 -----------------------------------------------------------------
@@ -153,15 +156,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1662477260
+export SOURCE_DATE_EPOCH=1674256177
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
 export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
 export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
@@ -211,7 +214,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1662477260
+export SOURCE_DATE_EPOCH=1674256177
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
 cp %{_builddir}/pcre-%{version}/LICENCE %{buildroot}/usr/share/package-licenses/pcre/936db4f914d8b9a516ac93a3bf7856c8bfeb6855 || :
@@ -402,6 +405,10 @@ popd
 
 %files extras-unicode
 %defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre16.so.0
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre16.so.0.2.13
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre32.so.0
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre32.so.0.0.13
 /usr/lib64/libpcre16.so.0
 /usr/lib64/libpcre16.so.0.2.13
 /usr/lib64/libpcre32.so.0
@@ -415,10 +422,6 @@ popd
 %defattr(-,root,root,-)
 /usr/lib64/glibc-hwcaps/x86-64-v3/libpcre.so.1
 /usr/lib64/glibc-hwcaps/x86-64-v3/libpcre.so.1.2.13
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre16.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre16.so.0.2.13
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre32.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpcre32.so.0.0.13
 /usr/lib64/glibc-hwcaps/x86-64-v3/libpcreposix.so.0
 /usr/lib64/glibc-hwcaps/x86-64-v3/libpcreposix.so.0.0.7
 /usr/lib64/libpcre.so.1

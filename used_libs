@@ -1,1 +1,3 @@
 libc.so.6
+libpcre16.so.0
+libpcre32.so.0
