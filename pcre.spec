@@ -7,7 +7,7 @@
 #
 Name     : pcre
 Version  : 8.45
-Release  : 77
+Release  : 78
 URL      : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz
 Source1  : https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz.sig
@@ -147,7 +147,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1683217393
+export SOURCE_DATE_EPOCH=1685576853
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -205,7 +205,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1683217393
+export SOURCE_DATE_EPOCH=1685576853
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre
 cp %{_builddir}/pcre-%{version}/LICENCE %{buildroot}/usr/share/package-licenses/pcre/936db4f914d8b9a516ac93a3bf7856c8bfeb6855 || :
@@ -244,11 +244,6 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
-/V3/usr/lib64/libpcre.so
-/V3/usr/lib64/libpcre16.so
-/V3/usr/lib64/libpcre32.so
-/V3/usr/lib64/libpcrecpp.so
-/V3/usr/lib64/libpcreposix.so
 /usr/include/pcre.h
 /usr/include/pcre_scanner.h
 /usr/include/pcre_stringpiece.h
@@ -390,16 +385,13 @@ popd
 
 %files extras
 %defattr(-,root,root,-)
-/V3/usr/lib64/libpcrecpp.so.0
 /V3/usr/lib64/libpcrecpp.so.0.0.2
 /usr/lib64/libpcrecpp.so.0
 /usr/lib64/libpcrecpp.so.0.0.2
 
 %files extras-unicode
 %defattr(-,root,root,-)
-/V3/usr/lib64/libpcre16.so.0
 /V3/usr/lib64/libpcre16.so.0.2.13
-/V3/usr/lib64/libpcre32.so.0
 /V3/usr/lib64/libpcre32.so.0.0.13
 /usr/lib64/libpcre16.so.0
 /usr/lib64/libpcre16.so.0.2.13
@@ -408,9 +400,7 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libpcre.so.1
 /V3/usr/lib64/libpcre.so.1.2.13
-/V3/usr/lib64/libpcreposix.so.0
 /V3/usr/lib64/libpcreposix.so.0.0.7
 /usr/lib64/libpcre.so.1
 /usr/lib64/libpcre.so.1.2.13
